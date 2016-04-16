@@ -13,42 +13,33 @@ namespace BankingSystem_inclass
     {
         static void Main(string[] args)
         {
+        
+            
             //transaction list - the road not taken
             //List<decimal> transactionList = new List<decimal>();
             //decimal summedBalance = transactionList.Sum();
 
-            //Banner 
-            //string head = Banner();
-
-            //setting up a transaction account list
-        List<decimal> transactionList = new List<decimal>();
-
-
-        //BANNER, establish strinwriter file
-        Console.WriteLine(Banner());
+            //BANNER, establish strinwriter file
+            Console.WriteLine(Banner());
             string text = "AccountSummary.txt";
             StreamWriter write = new StreamWriter(@"AccountSummary.txt");
 
             using (write)
             {
                 write.WriteLine(Banner());
-                // write.WriteLine();
             }
 
             //Main menu method
             MainMenu();
-
-           
-
-            // StringBuilder sb = new StringBuilder();
-
+            
         }
 
         static public void MainMenu()
         {
+            DateTime thisDay = DateTime.Now;
+            string todaysDate = thisDay.ToString("F");
+            string sbDone;
 
-
- 
             //MAIN MENU
             Console.WriteLine("Please pick a service:");
             Console.WriteLine("");
@@ -84,19 +75,19 @@ namespace BankingSystem_inclass
                     Console.Clear();
                     Console.WriteLine("DEPOSIT FUNDS");
                     Account transDeposit = new Account();
-                    transDeposit.Deposit(transDeposit.Balance);
-                    //streamwriter
-                    DateTime thisDay = DateTime.Now;
-                    string todaysDate = thisDay.ToString("F");
+                    transDeposit.Deposit();
+                    //stringbuilder, then dumping result to streamwriter
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(todaysDate);
+                    sb.Append("\t+\t");
+                    sb.Append(transDeposit.LastDeposit + "\t");
+                    sb.Append(transDeposit.NewBalance + "\r\n");
+                    sbDone = sb.ToString();
 
                     using (StreamWriter sw = File.AppendText(@"AccountSummary.txt"))
                     {
-                        sw.Write(todaysDate);
-                        sw.Write("\t+\t");
-                        sw.Write(transDeposit.NewBalance + "\t");
-                        sw.Write(transDeposit.LastDeposit + "\r\n");
+                        sw.WriteLine(sbDone);
                     }
-
 
                     break;
                 case 4:
@@ -104,6 +95,21 @@ namespace BankingSystem_inclass
                     Console.WriteLine("WITHDRAW FUNDS");
                     Account transaction = new Account();
                     transaction.Withdraw();
+                    Console.WriteLine("LastWithdrawal is " + transaction.LastWithdrawal);
+
+                    StringBuilder sbw = new StringBuilder();
+                    sbw.Append(todaysDate);
+                    sbw.Append("\t-\t");
+                    sbw.Append(transaction.LastWithdrawal + "\t");
+                    sbw.Append(transaction.NewBalance + "\r\n");
+                    sbDone = sbw.ToString();
+
+                    using (StreamWriter sw = File.AppendText(@"AccountSummary.txt"))
+                    {
+                        sw.WriteLine(sbDone);
+                    }
+
+
                     break;
                 case 5:
                     Console.Clear();

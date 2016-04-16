@@ -13,7 +13,7 @@ namespace BankingSystem_inclass
         //fields - we may not use all, populating just in case
         private string name = "Scrooge McDuck";
         private double accountNumber;
-        private decimal balance;
+        private decimal balance = 500.21M;
         private decimal newBalance;
         private decimal lastDeposit;
         private decimal lastWithdrawal;
@@ -27,9 +27,7 @@ namespace BankingSystem_inclass
 
 
         //properties - we may not use all, populating just in case
-
-        
-
+            
         protected string Name
         { get { return this.name; } set { this.name = value; } }
 
@@ -71,54 +69,64 @@ namespace BankingSystem_inclass
 
             Console.WriteLine(Program.Banner());
             //decimal summedBalance = transactionList.Sum();
-            Console.WriteLine("Your current balance is {0}. Enter the amount to withdraw.");
+            Console.WriteLine("Your current balance is {0}. Enter the amount to withdraw.",this.Balance);
             decimal userInput = decimal.Parse(Console.ReadLine());
-            decimal tempBalance = Balance;
-            NewBalance = Balance - userInput;
-            if (NewBalance < 0)
+            this.LastWithdrawal = userInput;
+            decimal tempBalance = this.Balance;
+            this.NewBalance = this.Balance - userInput;
+            if (this.NewBalance < 0)
             {
-                Balance = tempBalance;
+                this.Balance = tempBalance;
                 Console.WriteLine("Insufficient funds. Transaction cancelled.");
-                Console.WriteLine("Current balance is {0}.", balance);
+                Console.WriteLine("Current balance is {0}.", this.Balance);
             }
             else
             {
-                Balance = NewBalance;
-                Console.WriteLine("Transaction successful, current balance is {0}", Balance);
+                this.Balance = this.NewBalance;
+                Console.WriteLine("Transaction successful, current balance is {0}", this.Balance);
             }
+
+            //redo or exit
+            Console.WriteLine("Another transaction? Enter Y or N");
+            char menu = char.Parse(Console.ReadLine().ToUpper());
+            if (menu == 'Y')
+            { Program.MainMenu(); }
+            else return;
         }
 
-        public void Deposit(decimal balance)
+        public void Deposit()
         {
             //same logic as withdrawal minus the if statement
             //ingredients: Balance, customer-inputted amount to deposit
             //output: "success, new balance", streamwriter output.
 
             Console.WriteLine(Program.Banner());
-            decimal summedBalance = transactionList.Sum();
-            Console.WriteLine("Your current balance is {0}. Enter the amount to deposit.", summedBalance);
+            //decimal summedBalance = transactionList.Sum();
+            //Console.WriteLine("Your current balance is {0}. Enter the amount to deposit.", summedBalance);
+            Console.WriteLine("Your current balance is {0}. Enter the amount to deposit.", this.Balance);
             decimal userInput = decimal.Parse(Console.ReadLine());
-            LastDeposit = userInput;
-            transactionList.Add(userInput);
+            this.LastDeposit = userInput;
+           // transactionList.Add(userInput);
             //decimal tempBalance = Balance;
-            decimal NewBalance = Balance + userInput;
+            this.NewBalance = this.Balance + userInput;
             this.Balance = NewBalance;
-            Console.WriteLine("trasnaction list");
-
-            foreach (decimal i in transactionList)
-            {
-                Console.WriteLine(i);
-            }
+            
+            //testing transactionList
+            //Console.WriteLine("trasnaction list");
+            //foreach (decimal i in transactionList)
+            //{
+            //    Console.WriteLine(i);
+            //}
 
 
             // summedBalance = transactionList.Sum();
-            Console.WriteLine("Transaction successful, current balance is {0}", Balance);
+            Console.WriteLine("Transaction successful, current balance is {0}", this.Balance);
 
             //Date and Time
 
-            DateTime thisDay = DateTime.Now;
-            string todaysDate = thisDay.ToString("F");
-            Console.WriteLine(todaysDate);
+            //DateTime thisDay = DateTime.Now;
+            //string todaysDate = thisDay.ToString("F");
+            //Console.WriteLine(todaysDate);
 
             //redo or exit
             Console.WriteLine("Another transaction? Enter Y or N");
