@@ -42,9 +42,25 @@ namespace BankingSystem_inclass
         //methods
         public void ViewClientInfo()
         {
-            Console.WriteLine("Information for client {0}, born on {1}", this.name, this.dateOfBirth);
-            Console.WriteLine("{0} has been a client since: {1}.",this.name,this.clientSince);
-            Console.WriteLine("The address on file for {0} is: \r\n{1}.", this.name, this.address);
+            StringBuilder sb = new StringBuilder();
+            string[] viewInfo = { "Information for client " + this.name + " born on " + this.dateOfBirth,
+                                  " *  *  *  *  *  *  *  *  *  *  *",
+                                   this.name + " has been a client since: " + this.clientSince +".",
+                                  "The address on file for " + this.name +" is: \r\n" + this.address
+                                };
+            foreach (string value in viewInfo)
+            {
+                sb.Append(value);
+                sb.Append("\r\n");
+            }
+            string vClientInfo = sb.ToString();
+            Console.WriteLine(vClientInfo);
+            Console.WriteLine("Another transaction? Enter Y or N");
+            char menu = char.Parse(Console.ReadLine().ToUpper());
+            if (menu == 'Y')
+            { Program.MainMenu(); }
+            else return;
+
         }
 
         //Constructors 
